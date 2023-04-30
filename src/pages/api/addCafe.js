@@ -6,7 +6,7 @@ connect()
 export default async function handler(req, res) {
     try {
         console.log(req.body)
-        const cafe = await Cafe.create(req.body);
+        const cafe = await Cafe.save(req.body);
         if (!cafe) {
             return res.json({ "code": 'User not created' })
         }
