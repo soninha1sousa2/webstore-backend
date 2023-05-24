@@ -10,6 +10,7 @@ export default async function handler(req, res) {
         if (!cafe) {
             return res.json({ "code": 'User not created' })
         }
+        res.redirect("/cafe")
         return res.json({ "code": "Success!" })
     } catch (error) {
         res.status(400).json({ status: 'Not able to create a new user.' })
