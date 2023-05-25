@@ -6,7 +6,7 @@ connect()
 export default async function handler(req, res) {
     try {
         const bolos = await Bolo.find({});
-        res.send({
+        return new Response("Hello", {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
             },
             status: 'ok',
             data: bolos,
-        });
+        })
     }
     catch (error) {
         res.status(400).json({ status: 'Not able to get.' })
