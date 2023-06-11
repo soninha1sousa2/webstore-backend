@@ -16,12 +16,12 @@ export default async function handler(req, res) {
         console.log(req.body)
 
         await cors(corsOptions)(req, res);
-        
+
         const user = await User.create(req.body);
         if (!user) {
-            return res.json({ "code": 'User not created' })
+            res.send({ "code": 'User not created' })
         }
-        return res.json({ "code": "Success!" })
+        res.send({ "code": "Success!" })
     } catch (error) {
         res.status(400).json({ status: 'Not able to create a new user.' })
     }
