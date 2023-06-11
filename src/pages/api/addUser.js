@@ -15,6 +15,11 @@ export default async function handler(req, res) {
     try {
         console.log(req.body)
 
+        if(req.methods === 'OPTIONS'){
+            await cors(corsOptions)(req, res);
+            return res.status(200).end();
+        }
+
         await cors(corsOptions)(req, res);
 
         const user = await User.create(req.body);
