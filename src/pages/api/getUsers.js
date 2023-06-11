@@ -1,7 +1,9 @@
 import connect from "../../db/database";
 import User from "../../models/userSchema";
+import cors from "cors"
 
 connect()
+
 
 export default async function handler(req, res) {
     try {
