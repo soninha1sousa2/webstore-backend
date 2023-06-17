@@ -1,30 +1,28 @@
 import connect from "../../db/database";
 import User from "../../models/userSchema";
-import cors from "cors"
+
 
 connect()
 
-const corsOptions = {
-    origin: '*',
-    methods: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
-    allowHeaders: '*',
-    credentials: true
-}
 
 export default async function handler(req, res) {
     try {
-        console.log(req.body)
-
-        if(req.methods === 'OPTIONS'){
-            await cors(corsOptions)(req, res);
-            return res.status(200).end();
-        }
-
-        await cors(corsOptions)(req, res);
 
         const user = await User.create(req.body);
+
+        res.setHeader('Access-Control-Allow-Credentials', true)
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        // another common pattern
+        // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+        res.setHeader(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+        )
+
         if (!user) {
             res.send({ "code": 'User not created' })
+            
         }
         res.send({ "code": "Success!" })
     } catch (error) {
