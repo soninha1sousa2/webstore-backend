@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         const morada = req.body.morada
         const telemovel = req.body.telemovel
 
-        const bolo = await User.updateOne({email: email},{
+        await User.updateOne({email: email},{
             nome: nome,
             dataNascimento: dataNascimento,
             morada: morada,
@@ -26,10 +26,10 @@ export default async function handler(req, res) {
             'Access-Control-Allow-Headers',
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
-        if (!bolo) {
+        /* if (!bolo) {
             return res.json({ "code": 'User not created' })
         }
-        return res.json({ "code": "Success!" })
+        return res.json({ "code": "Success!" }) */
     } catch (error) {
         res.status(400).json({ status: 'Not able to create.' })
     }
