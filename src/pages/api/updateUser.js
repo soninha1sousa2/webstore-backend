@@ -5,18 +5,7 @@ connect()
 
 export default async function handler(req, res) {
     try {
-        const email = req.body.email
-        const nome = req.body.nome
-        const dataNascimento = req.body.dataNascimento
-        const morada = req.body.morada
-        const telemovel = req.body.telemovel
 
-        const update = await User.findOneAndUpdate({email: email},{
-            nome: nome,
-            dataNascimento: dataNascimento,
-            morada: morada,
-            telemovel: telemovel
-        });
         res.setHeader('Access-Control-Allow-Credentials', true)
         res.setHeader('Access-Control-Allow-Origin', '*')
         // another common pattern
@@ -26,10 +15,22 @@ export default async function handler(req, res) {
             'Access-Control-Allow-Headers',
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
-        if (!update) {
-            return res.json({ "code": 'User not created' })
-        }
-        return res.json({ "code": "Success!" })
+
+        const email = req.body.email
+        const nome = req.body.nome
+        const dataNascimento = req.body.dataNascimento
+        const morada = req.body.morada
+        const telemovel = req.body.telemovel
+
+        await User.findOneAndUpdate({email: email},{
+            nome: nome,
+            dataNascimento: dataNascimento,
+            morada: morada,
+            telemovel: telemovel
+        })
+        .then((doc) => res.send(doc))
+        .catch((err) => res.send(err))
+        
     } catch (error) {
         res.status(400).json({ status: 'Not able to create.' })
     }
