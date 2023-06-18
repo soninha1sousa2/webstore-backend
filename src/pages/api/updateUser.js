@@ -17,6 +17,7 @@ export default async function handler(req, res) {
         )
 
         const email = req.body.email
+        const coco = "coco"
         const nome = req.body.nome
         const dataNascimento = req.body.dataNascimento
         const morada = req.body.morada
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
             morada: morada,
             telemovel: telemovel
         })
-        res.send({ status: 'ok', data: email })
+        res.send({ status: 'ok', data: coco })
         
     } catch (error) {
         res.status(400).json({ status: 'Not able to create.' })
