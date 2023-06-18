@@ -16,12 +16,13 @@ export default async function handler(req, res) {
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
 
-        const email = req.body
-        const coco = "coco"
-        const nome = req.body.nome
-        const dataNascimento = req.body.dataNascimento
-        const morada = req.body.morada
-        const telemovel = req.body.telemovel
+        const obj = JSON.parse(req.body.replace("/",""))
+
+        const email = obj.email
+        const nome = obj.nome
+        const dataNascimento = obj.dataNascimento
+        const morada = obj.morada
+        const telemovel = obj.telemovel
 
         const update = await User.findOneAndUpdate({email: email},{
             nome: nome,
