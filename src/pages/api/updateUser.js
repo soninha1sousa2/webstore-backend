@@ -28,8 +28,8 @@ export default async function handler(req, res) {
             morada: morada,
             telemovel: telemovel
         })
-        .then((doc) => res.send("nao erro"))
-        .catch((err) => res.send("erro"))
+        .then((doc) => res.send({ status: 'ok', data: doc }))
+        .catch((err) => res.send({ status: 'nok', data: err }))
         
     } catch (error) {
         res.status(400).json({ status: 'Not able to create.' })
