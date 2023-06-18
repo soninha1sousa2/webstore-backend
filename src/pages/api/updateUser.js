@@ -28,7 +28,7 @@ export default async function handler(req, res) {
             morada: morada,
             telemovel: telemovel
         })
-        res.send({ status: 'ok', data: update })
+        res.send({ status: 'ok', data: "email" })
         
     } catch (error) {
         res.status(400).json({ status: 'Not able to create.' })
