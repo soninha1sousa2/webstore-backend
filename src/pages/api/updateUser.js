@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         const morada = req.body.morada
         const telemovel = req.body.telemovel
 
-        const update = await User.updateOne({email: email},{
+        const update = await User.findOneAndUpdate({email: email},{
             nome: nome,
             dataNascimento: dataNascimento,
             morada: morada,
