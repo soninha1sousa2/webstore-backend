@@ -16,7 +16,7 @@ export default async function handler(req, res) {
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
 
-        const email = req.body.email
+        const email = req.body
         const coco = "coco"
         const nome = req.body.nome
         const dataNascimento = req.body.dataNascimento
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
             morada: morada,
             telemovel: telemovel
         })
-        res.send({ status: 'ok', data: coco })
+        res.send({ status: 'ok', data: email })
         
     } catch (error) {
         res.status(400).json({ status: 'Not able to create.' })
