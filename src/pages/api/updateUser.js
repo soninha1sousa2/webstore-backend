@@ -22,14 +22,13 @@ export default async function handler(req, res) {
         const morada = req.body.morada
         const telemovel = req.body.telemovel
 
-        await User.findOneAndUpdate({email: email},{
+        const update = await User.findOneAndUpdate({email: email},{
             nome: nome,
             dataNascimento: dataNascimento,
             morada: morada,
             telemovel: telemovel
         })
-        .then((doc) => res.send({ status: 'ok', data: doc }))
-        .catch((err) => res.send({ status: 'nok', data: err }))
+        res.send({ status: 'ok', data: update })
         
     } catch (error) {
         res.status(400).json({ status: 'Not able to create.' })
