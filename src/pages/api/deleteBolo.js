@@ -5,6 +5,9 @@ connect();
 
 export default async function handler(req, res) {
   try {
+    res.setHeader('Access-Control-Allow-Credentials', true)
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
     if (req.method === "DELETE") {
       const { id } = req.query;
       const deletedBolo = await Bolo.findByIdAndDelete(id);
