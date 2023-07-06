@@ -39,6 +39,6 @@ export default async function handler(req, res) {
     }
     catch (error) {
         //console.error(error);
-        res.status(400).json({ status: 'Not able to get.', error: error })
+        res.status(400).json({ status: 'Not able to get.', error: error.toString() })
     }
 }
