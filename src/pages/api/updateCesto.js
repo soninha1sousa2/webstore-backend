@@ -4,7 +4,7 @@
 //id do user
 //id do produto
 import connect from "../../db/database";
-import User from "../../models/cestoSchema";
+import Cesto from "../../models/cestoSchema";
 
 connect()
 
