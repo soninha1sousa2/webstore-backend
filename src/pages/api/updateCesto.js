@@ -60,8 +60,7 @@ export default async function handler(req, res) {
         res.send({ status: 'ok', data: update })
             
     } catch (error) {
-        console.log(error);
-        const obj = JSON.parse(req.body.replace("/",""))
-        res.status(400).json({ status: 'Not able to create.', test: req.body })
+        //console.log(error);
+        res.status(400).json({ status: 'Not able to create.', error: error.toString() })
     }
 }
