@@ -22,13 +22,13 @@ export default async function handler(req, res) {
         )
 
         //obter corpo da mensagem
-        const obj = JSON.parse(req.body.replace("/",""));
-        console.log(obj);
+        //const obj = JSON.parse(req.body.replace("/",""));
+        //console.log(obj);
 
         //objetos no pedido
-        const id = obj.id
-        const produto = obj.prod
-        const quantidade = obj.n
+        const id = req.body.id
+        const produto = req.body.prod
+        const quantidade = req.body.n
 
         let existingCesto = await Cesto.find({ _id: id });
         //se não encontrado, criar um
