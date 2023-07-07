@@ -9,6 +9,7 @@ import Cesto from "../../models/cestoSchema";
 connect()
 
 export default async function handler(req, res) {
+    let existingCesto;
     try {
 
         res.setHeader('Access-Control-Allow-Credentials', true)
@@ -30,29 +31,37 @@ export default async function handler(req, res) {
         const produto = req.body.prod
         const quantidade = req.body.n
 
-        let existingCesto = await Cesto.find({ _id: id });
+        existingCesto = await Cesto.find({ _id: id });
         //se não encontrado, criar um
-        if (!existingCesto) {
+        if (Array.isArray(existingCesto)) {
+            console.log("Novo cesto criado");
             existingCesto = new Cesto({ _id: id, produtos: [] });
         }
         //!nao verifica se o cliente recebido existe
 
         // Find the index of the existing product in the 'produtos' array
-        const existingProductIndex = existingCesto.produtos.findIndex(
-            (item) => item.produto.toString() === produto
-        );
+        //erro: existingCesto.produtos não existe para uma lista produtos vazia
+        if (existingCesto && existingCesto.produtos && existingCesto.produtos.length > 0) {
+            const existingProductIndex = existingCesto.produtos.findIndex(
+              (item) => item.produto.toString() === produto
+            );
 
-        if (quantidade === 0) { //se for para remover o produto do cesto
-            // Remove the product if it is still in the cart
-            if (existingProductIndex !== -1) { //se o produto estiver no cesto
-                existingCesto.produtos.splice(existingProductIndex, 1);
-            }
-        } else {
-            // Update the quantidade of the product or add the product if not present
-            if (existingProductIndex !== -1) {
-                existingCesto.produtos[existingProductIndex].quantidade = quantidade;
+            if (quantidade === 0) { //se for para remover o produto do cesto
+                // Remove the product if it is still in the cart
+                if (existingProductIndex !== -1) { //se o produto estiver no cesto
+                    existingCesto.produtos.splice(existingProductIndex, 1);
+                }
             } else {
-                existingCesto.produtos.push({ produto, quantidade });
+                // Update the quantidade of the product or add the product if not present
+                if (existingProductIndex !== -1) {
+                    existingCesto.produtos[existingProductIndex].quantidade = quantidade;
+                } else {
+                    existingCesto.produtos.push({ produto, quantidade });
+                }
+            }
+        } else { // quando o cesto não tem produtos
+            if (quantidade !== 0) {  //se não for para remover produto
+              existingCesto.produtos.push({ produto, quantidade });
             }
         }
 
@@ -61,6 +70,6 @@ export default async function handler(req, res) {
             
     } catch (error) {
         //console.log(error);
-        res.status(400).json({ status: 'Not able to create.', error: error.toString() })
+        res.status(400).json({ status: 'Not able to create.', cesto: existingCesto ,error: error.toString() })
     }
 }
