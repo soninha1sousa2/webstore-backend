@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 
 const cestoSchema = new mongoose.Schema({
     _id: {
-        type: mongoose.Types.ObjectId,
+        type: String,
         ref: 'User',
         required: true
     },
     produtos: [{
-        produto: {
+        _id: {
             type: mongoose.Types.ObjectId,
             required: true
         },

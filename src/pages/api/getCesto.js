@@ -2,20 +2,15 @@
 //so precisa devolver o carrinho de um cliente
 import connect from "../../db/database";
 import Cesto from "../../models/cestoSchema";
-import mongoose from 'mongoose';
 
 connect()
 
 export default async function handler(req, res) {
     try {
-        const cestoId = new mongoose.Types.ObjectId(req.id); //id do cliente
+        const cestoId = req.query.id; //id do cliente
         //console.log("deu");
         //console.log(cestoId);
         const cesto = await Cesto.find({ _id: cestoId });
-        //const cesto1 = await Cesto.findById(cestoId);
-        
-        //console.log(cesto);
-        //console.log(cesto1);
 
         res.setHeader('Access-Control-Allow-Credentials', true)
         res.setHeader('Access-Control-Allow-Origin', '*')
@@ -39,6 +34,6 @@ export default async function handler(req, res) {
     }
     catch (error) {
         //console.error(error);
-        res.status(400).json({ status: 'Not able to get.', error: error })
+        res.status(400).json({ status: 'Not able to get.', error: error.toString() })
     }
 }
