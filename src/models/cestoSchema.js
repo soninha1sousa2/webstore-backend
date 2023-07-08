@@ -8,7 +8,7 @@ const cestoSchema = new mongoose.Schema({
         required: true
     },
     produtos: [{
-        produto: {
+        _id: {
             type: mongoose.Types.ObjectId,
             required: true
         },

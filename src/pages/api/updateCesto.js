@@ -13,6 +13,7 @@ export default async function handler(req, res) {
     let id;
     let produto;
     let quantidade;
+    let userHadCart = true;
     try {
 
         res.setHeader('Access-Control-Allow-Credentials', true)
@@ -25,36 +26,35 @@ export default async function handler(req, res) {
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
 
-        //obter corpo da mensagem
-        //const obj = JSON.parse(req.body.replace("/",""));
-        //console.log(obj);
-
         //objetos no pedido
-        id = req.body.id
-        produto = req.body.prod
-        quantidade = req.body.n
-        console.log("id: ", id);
-        console.log("produto: ", produto);
-        console.log("quantidade: ", quantidade);
+        id = req.query.id
+        produto = req.query.prod
+        quantidade = req.query.n
+        //console.log("id: ", id);
+        //console.log("produto: ", produto);
+        //console.log("quantidade: ", quantidade);
 
-        existingCesto = await Cesto.find({ _id: id });
+        existingCesto = (await Cesto.find({ _id: id }))[0];
+
         //se não encontrado, criar um
-        console.log("Cesto encontrado: ", existingCesto);
+        //console.log("Cesto encontrado: ", existingCesto);
         if (Array.isArray(existingCesto)) { //se o cliente não tem cesto na bd
             existingCesto = new Cesto({ _id: id, produtos: [] });
-            console.log("Novo cesto criado: ", existingCesto);
+            //console.log("Novo cesto criado: ", existingCesto);
+            userHadCart = false;
         }
         //!nao verifica se o cliente recebido existe
 
         // Find the index of the existing product in the 'produtos' array
         //erro: existingCesto.produtos não existe para uma lista produtos vazia
-        if (existingCesto && existingCesto.produtos && existingCesto.produtos.length > 0) {
+        if (existingCesto && existingCesto.produtos && existingCesto.produtos.length > 0) { //quando o cesto já tem produtos
             const existingProductIndex = existingCesto.produtos.findIndex(
-              (item) => item.produto.toString() === produto
+              (item) => item._id.toString() === produto
             );
 
-            if (quantidade === 0) { //se for para remover o produto do cesto
+            if (quantidade === "0") { //se for para remover o produto do cesto
                 // Remove the product if it is still in the cart
+                //console.log("existingProductIndex: ", existingProductIndex);
                 if (existingProductIndex !== -1) { //se o produto estiver no cesto
                     existingCesto.produtos.splice(existingProductIndex, 1);
                 }
@@ -63,26 +63,38 @@ export default async function handler(req, res) {
                 if (existingProductIndex !== -1) { //se o produto estiver no cesto
                     existingCesto.produtos[existingProductIndex].quantidade = quantidade;
                 } else {
-                    existingCesto.produtos.push({ produto: produto, quantidade: quantidade });
-                    console.log("Inserido em produtos: ",{ produto: produto, quantidade: quantidade });
+                    existingCesto.produtos.push({ _id: produto, quantidade: quantidade });
+                    //console.log("Inserido em produtos: ",{ _id: produto, quantidade: quantidade });
                 }
             }
         } else { // quando o cesto não tem produtos
             if (quantidade !== 0) {  //se não for para remover produto
-              console.log("Cesto antes: ", existingCesto);
-              existingCesto.produtos.push({ produto: produto, quantidade: quantidade });
-              console.log("Inserido em produtos: ",{ produto: produto, quantidade: quantidade });
-              console.log("Cesto depois: ", existingCesto);
+              //console.log("Cesto antes: ", existingCesto);
+              //console.log("Produto: ", produto);
+              //console.log("Quantidade: ", quantidade);
+              //console.log("existingCesto.produtos: ", existingCesto.produtos);
+              existingCesto.produtos.push({ _id: produto, quantidade: quantidade });
+              //console.log("Inserido em produtos: ",{ _id: produto, quantidade: quantidade });
+              //console.log("Cesto depois: ", existingCesto);
             }
         }
-        console.log("Novo cesto: ", existingCesto);
-        const update = await Cesto.findOneAndUpdate({ _id: id }, existingCesto);
+        
+        //console.log("Novo cesto: ", existingCesto);
+        //console.log("userHadCart: ", userHadCart)
+        if (userHadCart){
+            await Cesto.findOneAndUpdate({ _id: id }, existingCesto);
+        } else { //criar cesto na bd
+            await Cesto.create({ _id: id }, existingCesto);
+        }
+        //console.log("Update: ", update);
+        
         res.send({ status: 'ok', 
                    request: { id: id, 
                               produto: produto, 
                               quantidade: quantidade 
                             }, 
-                   data: existingCesto });
+                   data: existingCesto
+                });
             
     } catch (error) {
         //console.log(error);
@@ -91,8 +103,8 @@ export default async function handler(req, res) {
                                           produto: produto, 
                                           quantidade: quantidade 
                                         }, 
-                               cesto: existingCesto ,
-                               error: error.toString() 
+                               cesto: existingCesto,
+                               error: error 
                             })
     }
 }
