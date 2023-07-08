@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 
         //se não encontrado, criar um
         //console.log("Cesto encontrado: ", existingCesto);
-        if (Array.isArray(existingCesto)) { //se o cliente não tem cesto na bd
+        if (existingCesto===undefined) { //se o cliente não tem cesto na bd
             existingCesto = new Cesto({ _id: id, produtos: [] });
             //console.log("Novo cesto criado: ", existingCesto);
             userHadCart = false;
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
         if (userHadCart){
             await Cesto.findOneAndUpdate({ _id: id }, existingCesto);
         } else { //criar cesto na bd
-            await Cesto.create({ _id: id }, existingCesto);
+            await Cesto.create(existingCesto);
         }
         //console.log("Update: ", update);
         
