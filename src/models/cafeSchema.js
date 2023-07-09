@@ -13,6 +13,10 @@ const cafeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    seller: {
+        type: String,
+        required: true,
+    },
 
 })
 
