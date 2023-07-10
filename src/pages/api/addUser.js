@@ -7,8 +7,8 @@ connect()
 
 export default async function handler(req, res) {
     try {
-
-        const user = await User.create(req.body);
+        const obj = JSON.parse(req.body.replace("/",""))
+        const user = await User.create(obj);
 
         res.setHeader('Access-Control-Allow-Credentials', true)
         res.setHeader('Access-Control-Allow-Origin', '*')
