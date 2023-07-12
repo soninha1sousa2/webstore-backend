@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     res.send({ "code": "Success!" })
 
   } catch (error) {
-    res.status(400).json({ status: obj._id })
+    res.status(400).json({ status: "not able to delete" })
   }
 }
 
