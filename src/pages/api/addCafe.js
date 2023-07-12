@@ -5,7 +5,6 @@ connect()
 
 export default async function handler(req, res) {
     try {
-        console.log(req.body)
         const cafe = await Cafe.create(req.body);
         res.setHeader('Access-Control-Allow-Credentials', true)
         res.setHeader('Access-Control-Allow-Origin', '*')
@@ -17,10 +16,10 @@ export default async function handler(req, res) {
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
         if (!cafe) {
-            return res.json({ "code": 'User not created' })
+            return res.json({ "code": 'Cafe not created' })
         }
         return res.json({ "code": "Success!" })
     } catch (error) {
-        res.status(400).json({ status: 'Not able to create a new user.' })
+        res.status(400).json({ status: 'Not able to create a new cafe.' })
     }
 }

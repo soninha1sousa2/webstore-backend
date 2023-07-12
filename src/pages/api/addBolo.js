@@ -16,7 +16,7 @@ export default async function handler(req, res) {
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
         if (!bolo) {
-            return res.json({ "code": 'User not created' })
+            return res.json({ "code": 'bolo not created' })
         }
         return res.json({ "code": "Success!" })
     } catch (error) {
