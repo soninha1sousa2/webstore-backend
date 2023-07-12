@@ -17,6 +17,18 @@ const boloSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    glutenFree: {
+        type: String,
+        required: true,
+    },
+    vegetarian: {
+        type: String,
+        required: true,
+    },
+    vegan: {
+        type: String,
+        required: true,
+    },
 
 })
 
