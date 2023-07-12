@@ -1,4 +1,5 @@
 import connect from "../../db/database";
+import Bolo from "../../models/boloSchema";
 
 connect();
 
