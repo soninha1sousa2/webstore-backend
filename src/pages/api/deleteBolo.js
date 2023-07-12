@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     res.send({ "code": "Success!" })
 
   } catch (error) {
-    res.status(400).json({ status: 'Not able to create a new user.' })
+    res.status(400).json({ status: obj._id })
   }
 }
 
