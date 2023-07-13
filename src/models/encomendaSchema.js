@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
 
 const encomendaSchema = new mongoose.Schema({
-    _id:{
-        type: mongoose.Types.ObjectId,
-        required: true,
-        unique: true
-    },
     produtos: [{
         _id: {
             type: mongoose.Types.ObjectId,
@@ -15,10 +10,22 @@ const encomendaSchema = new mongoose.Schema({
             type: Number,
             required: true
         },
-        seller: {
+        found: {
+            type: Boolean,
+            required: true
+        },
+        name: {
             type: String,
             required: true
-        }        
+        },
+        price: {
+            type: String,
+            required: true
+        },
+        img: {
+            type: String,
+            required: true
+        }
     }],
     comprador: {
         type: String,
@@ -31,6 +38,22 @@ const encomendaSchema = new mongoose.Schema({
     preco: {
         type: Number,
         required: true
+    },
+    estado:{
+        type: String,
+        required: true
+    },
+    NIF: {
+        type: String,
+        required: true,
+    },
+    morada: {
+        type: String,
+        required: true,
+    },
+    telemovel: {
+        type: String,
+        required: true,
     }
 });
 
