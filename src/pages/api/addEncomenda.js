@@ -4,15 +4,9 @@ import Encomenda from "../../models/encomendaSchema";
 connect()
 
 export default async function handler(req,res){
-    let encomenda;
-    let produto;
-    let quantidade;
-    let seller;
-    let comprador;
-    let transporte;
-    let preco;
 
     try{
+        const encomenda = await Encomenda.create(req.body);
         res.setHeader('Access-Control-Allow-Credentials', true)
         res.setHeader('Access-Control-Allow-Origin', '*')
         // another common pattern
@@ -22,12 +16,11 @@ export default async function handler(req,res){
             'Access-Control-Allow-Headers',
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
-        // id produto
-        comprador = req.query.comprador
-        produto = req.query.prod
-        quantidade = req.query.n
-        seller = req.query.seller
-        transporte
-
+        if (!encomenda){
+            return res.json({"code":"Order not created"})
+        }
+        return res.json({"code":"Sucess!"})
+    } catch(error){
+        res.status(400).json({status:'Not able to create.'})
     }
 }
