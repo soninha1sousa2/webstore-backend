@@ -6,7 +6,6 @@ connect()
 export default async function handler(req,res){
 
     try{
-        const encomenda = await Encomenda.create(req.body);
         res.setHeader('Access-Control-Allow-Credentials', true)
         res.setHeader('Access-Control-Allow-Origin', '*')
         // another common pattern
@@ -16,6 +15,10 @@ export default async function handler(req,res){
             'Access-Control-Allow-Headers',
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
+
+        const obj = JSON.parse(req.body.replace("/",""))
+        const encomenda = await Encomenda.create(obj);
+        
         if (!encomenda){
             return res.json({"code":"Order not created"})
         }
