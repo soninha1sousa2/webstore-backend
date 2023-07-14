@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         const update = await Encomenda.findOneAndUpdate({_id: id},{
             estado: "pago",
         })
-        res.send({ status: 'ok', data: "ok" })
+        res.send({ status: 'ok', data: id })
         
     } catch (error) {
         res.status(400).json({ status: 'Not able to create.' })
