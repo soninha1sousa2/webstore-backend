@@ -22,7 +22,7 @@ export default async function handler(req,res){
         if (!encomenda){
             return res.json({"code":"Order not created"})
         }
-        return res.send({ status: 'ok', data: bolo })
+        return res.send({ status: 'ok', data: encomenda })
     } catch(error){
         res.status(400).json({status:'Not able to create.'})
     }
