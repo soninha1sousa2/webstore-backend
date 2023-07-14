@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
         const id = obj.id
 
-        const update = await Encomenda.findOneAndUpdate({_id: ObjectId(id)},{
+        const update = await Encomenda.findByIdAndUpdate(id ,{
             estado: "pago",
         })
         res.send({ status: 'ok', data: id })
