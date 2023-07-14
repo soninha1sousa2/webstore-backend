@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import connect from "../../db/database";
 import Encomenda from "../../models/encomendaSchema";
 
@@ -20,7 +21,7 @@ export default async function handler(req, res) {
 
         const id = obj.id
 
-        const update = await Encomenda.findOneAndUpdate({_id: id},{
+        const update = await Encomenda.findOneAndUpdate({_id: ObjectId(id)},{
             estado: "pago",
         })
         res.send({ status: 'ok', data: id })
